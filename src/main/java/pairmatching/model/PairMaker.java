@@ -11,18 +11,18 @@ public class PairMaker {
 
     public PairMaker(Course course, List<String> crewNames) {
         this.course = course;
-        this.crewNames = crewNames;
+        this.crewNames = new ArrayList<>(crewNames);
     }
 
-    public Set<Pair> makePair() {
+    public Pairs makePair() {
         List<String> shuffledCrew = Randoms.shuffle(crewNames);
         List<Crew> crews = shuffledCrew.stream()
                 .map(crewName -> new Crew(course, crewName))
                 .collect(Collectors.toList());
         if (crews.size() % 2 == 0) {
-            return makeEvenPair(crews.size() / 2, new ArrayList<>(crews));
+            return new Pairs(makeEvenPair(crews.size() / 2, new ArrayList<>(crews)));
         }
-        return makeOddPair(crews.size() / 2 - 1, new ArrayList<>(crews));
+        return new Pairs(makeOddPair(crews.size() / 2 - 1, new ArrayList<>(crews)));
     }
 
     private Set<Pair> makeEvenPair(int number, List<Crew> crews) {

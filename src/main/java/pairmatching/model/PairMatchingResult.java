@@ -27,6 +27,9 @@ public class PairMatchingResult {
                 && pairMatchingResults.get(level).contains(matchingInformation));
     }
 
+    public MatchingInformation find(Level level, Mission mission){
+    }
+
 
 
 
