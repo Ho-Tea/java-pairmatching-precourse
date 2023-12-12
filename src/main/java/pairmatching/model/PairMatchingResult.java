@@ -12,18 +12,17 @@ public class PairMatchingResult {
         pairMatchingResults = new EnumMap<>(Level.class);
     }
 
-    public void add(Level level, Mission mission, List<Pair> pairs) {
-        level.validateContains(mission);
+    public void add(Level level, MatchingInformation matchingInformation) {
+        level.validateContains(matchingInformation.getMission());
         if(!pairMatchingResults.containsKey(level)){
             pairMatchingResults.put(level, new ArrayList<>());
         }
-        pairMatchingResults.get(level).add(new MatchingInformation(mission, pairs));
+        pairMatchingResults.get(level).add(matchingInformation);
     }
 
 
-    public boolean exist(Level level, Mission mission, List<Pair> pairs) {
-        level.validateContains(mission);
-        MatchingInformation matchingInformation = new MatchingInformation(mission, pairs);
+    public boolean exist(Level level, MatchingInformation matchingInformation) {
+        level.validateContains(matchingInformation.getMission());
         return !(pairMatchingResults.containsKey(level)
                 && pairMatchingResults.get(level).contains(matchingInformation));
     }

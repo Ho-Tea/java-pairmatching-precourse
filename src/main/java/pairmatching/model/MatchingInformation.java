@@ -1,7 +1,6 @@
 package pairmatching.model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -9,9 +8,13 @@ public class MatchingInformation {
     private final Mission mission;
     private final Set<Pair> matchResult;
 
-    public MatchingInformation(Mission mission, List<Pair> matchResult) {
+    public MatchingInformation(Mission mission, Set<Pair> matchResult) {
         this.mission = mission;
         this.matchResult = new HashSet<>(matchResult);
+    }
+
+    public Mission getMission() {
+        return mission;
     }
 
     @Override
