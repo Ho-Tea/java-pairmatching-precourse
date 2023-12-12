@@ -17,4 +17,11 @@ public enum Level {
         this.name = name;
         this.missions = missions;
     }
+
+    public void validateContains(Mission mission){
+        if(!missions.contains(mission)){
+            throw new IllegalArgumentException("해당 레벨에 존재하지 않는 미션입니다.");
+        }
+
+    }
 }
