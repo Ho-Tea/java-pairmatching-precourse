@@ -13,14 +13,14 @@ public class PairMatching {
     }
 
 
-    public void match(Course course, List<String> crewNames){
-        List<Pair> pairs = makePair(course, crewNames);
-
-
-
+    public boolean exist(Level level, Mission mission, List<Pair> pairs){
+        level.validateContains(mission);
+        PairMatchingResult pairMatchingResult = new PairMatchingResult(mission, pairs);
+        return !(pairMatchingResults.containsKey(level)
+                && pairMatchingResults.get(level).contains(pairMatchingResult));
     }
 
-    private List<Pair> makePair(Course course, List<String> crewNames){
+    public List<Pair> makePair(Course course, List<String> crewNames){
         List<String> shuffledCrew = Randoms.shuffle(crewNames);
         List<Crew> crews = shuffledCrew.stream()
                 .map(crewName -> new Crew(course, crewName))
