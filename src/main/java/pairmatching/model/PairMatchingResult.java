@@ -1,27 +1,34 @@
 package pairmatching.model;
 
+import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 public class PairMatchingResult {
-    private final Mission mission;
-    private final List<Pair> matchResult;
+    private Map<Level, List<MatchingInformation>> pairMatchingResults;
 
-    public PairMatchingResult(Mission mission, List<Pair> matchResult) {
-        this.mission = mission;
-        this.matchResult = matchResult;
+    public PairMatchingResult() {
+        pairMatchingResults = new EnumMap<>(Level.class);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PairMatchingResult that = (PairMatchingResult) o;
-        return mission == that.mission && Objects.equals(matchResult, that.matchResult);
+    public void add(Level level, Mission mission, List<Pair> pairs) {
+        level.validateContains(mission);
+        if(!pairMatchingResults.containsKey(level)){
+            pairMatchingResults.put(level, new ArrayList<>());
+        }
+        pairMatchingResults.get(level).add(new MatchingInformation(mission, pairs));
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(mission, matchResult);
+
+    public boolean exist(Level level, Mission mission, List<Pair> pairs) {
+        level.validateContains(mission);
+        MatchingInformation matchingInformation = new MatchingInformation(mission, pairs);
+        return !(pairMatchingResults.containsKey(level)
+                && pairMatchingResults.get(level).contains(matchingInformation));
     }
+
+
+
+
 }

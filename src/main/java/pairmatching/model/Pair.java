@@ -1,17 +1,18 @@
 package pairmatching.model;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Pair {
     private final int MIN_SIZE = 2;
     private final int MAX_SIZE = 3;
-    private final List<Crew> pair;
+    private final Set<Crew> pair;
 
     public Pair(List<Crew> pair) {
         validateSize(pair);
-        this.pair = new ArrayList<>(pair);
+        this.pair = new HashSet<>(pair);
     }
 
     private void validateSize(List<Crew> pair){
