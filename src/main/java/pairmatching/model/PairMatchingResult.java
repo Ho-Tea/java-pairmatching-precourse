@@ -11,9 +11,16 @@ public class PairMatchingResult {
         this.pairs = pairs;
     }
 
-    public boolean exist(Level level, Pairs pairs){
-        return this.level.equals(level)
-                && pairs.anyMatch(pairs);
+    public PairMatchingResult(PairMatchingResult pairMatchingResult, Pairs pairs) {
+        this.level = pairMatchingResult.level;
+        this.mission = pairMatchingResult.mission;
+        this.pairs = pairs;
     }
 
+
+
+    public boolean exist(PairMatchingResult target){
+        return level.equals(target.level)
+                && pairs.anyMatch(target.pairs);
+    }
 }
