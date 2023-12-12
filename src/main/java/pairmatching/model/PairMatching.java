@@ -1,49 +1,39 @@
 package pairmatching.model;
 
-import camp.nextstep.edu.missionutils.Randoms;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PairMatching {
 
-    public List<Crew> crew(Course course, List<String> crewNames){
-        List<String> shuffledCrew = Randoms.shuffle(crewNames);
-        return shuffledCrew.stream()
-                .map(crew -> new Crew(course, crew))
-                .collect(Collectors.toList());
+    private List<PairMatchingResult> pairMatchingResults;
+    private PairMaker pairMaker;
+
+    public PairMatching(PairMaker pairMaker) {
+        this.pairMatchingResults = new ArrayList<>();
+        this.pairMaker = pairMaker;
     }
 
-    public List<Pair> pair(List<Crew> crews){
-        validateCrewsSize(crews);
-        if (crews.size() % 2 == 0) {
-            return evenNumberPair(crews.size()/2, new ArrayList<>(crews));
+    public boolean match(PairMatchingResult targetResult){
+        for(PairMatchingResult pairMatchingResult : pairMatchingResults){
+            if(pairMatchingResult.exist(targetResult)){
+                return repeatMatch(targetResult, 3);
+            }
         }
-        return oddNumberPair(crews.size() / 2, new ArrayList<>(crews));
+        return pairMatchingResults.add(targetResult);
     }
 
-    private List<Pair> evenNumberPair(int number, List<Crew> crews) {
-        List<Pair> pairs = new ArrayList<>();
-        for (int i = 0; i < number; i++) {
-            pairs.add(new Pair(Arrays.asList(crews.remove(0), crews.remove(0))));
+    public boolean repeatMatch(PairMatchingResult targetResult, int repeatCount){
+        if(repeatCount == 0){
+            throw new IllegalArgumentException("3회 시도까지 매칭이 되지 않거나 매칭을 할 수 있는 경우의 수가 없습니다");
         }
-        return pairs;
-    }
-
-    private List<Pair> oddNumberPair(int number, List<Crew> crews) {
-        List<Pair> pairs = evenNumberPair(number - 1, crews);
-        pairs.add(new Pair(Arrays.asList(crews.remove(0), crews.remove(0), crews.remove(0))));
-        return pairs;
-    }
-
-    public void validateCrewsSize(List<Crew> crews){
-        if(crews.size() < 2){
-            throw new IllegalArgumentException("페어를 매칭할 수 없습니다.");
+        PairMatchingResult newPairMatchingResult = new PairMatchingResult(targetResult, new Pairs(pairMaker.pair()));
+        for(PairMatchingResult pairMatchingResult : pairMatchingResults){
+            if(pairMatchingResult.exist(newPairMatchingResult)){
+                return repeatMatch(targetResult, repeatCount--);
+            }
         }
+        return pairMatchingResults.add(newPairMatchingResult);
     }
-
 
 
 }
