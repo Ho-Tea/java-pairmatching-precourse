@@ -16,4 +16,12 @@ public class PairMatching {
 
 
 
+    public void validateCrewsSize(List<Crew> crews){
+        if(crews.size() < 2){
+            throw new IllegalArgumentException("페어를 매칭할 수 없습니다.");
+        }
+    }
+
+
+
 }
