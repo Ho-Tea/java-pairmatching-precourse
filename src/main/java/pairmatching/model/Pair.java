@@ -1,5 +1,7 @@
 package pairmatching.model;
 
+import pairmatching.constant.Exception;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,8 +18,12 @@ public class Pair {
 
     private void validateSize(List<Crew> pair){
         if (pair.size() != MIN_SIZE && pair.size() != MAX_SIZE){
-            throw new IllegalArgumentException("페어는 2인 혹은 3인으로 구성되어야 합니다.");
+            throw new IllegalArgumentException(Exception.PAIR_SIZE.getMessage());
         }
+    }
+
+    public List<Crew> getPair() {
+        return new ArrayList<>(pair);
     }
 
     @Override
