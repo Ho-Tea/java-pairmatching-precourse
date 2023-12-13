@@ -1,6 +1,7 @@
 package pairmatching.model;
 
-import java.util.ArrayList;
+import pairmatching.constant.Exception;
+
 import java.util.List;
 
 public class PairMatching {
@@ -8,8 +9,8 @@ public class PairMatching {
     private List<PairMatchingResult> pairMatchingResults;
     private PairMaker pairMaker;
 
-    public PairMatching(PairMaker pairMaker) {
-        this.pairMatchingResults = new ArrayList<>();
+    public PairMatching(List<PairMatchingResult> pairMatchingResults, PairMaker pairMaker) {
+        this.pairMatchingResults = pairMatchingResults;
         this.pairMaker = pairMaker;
     }
 
@@ -24,16 +25,15 @@ public class PairMatching {
 
     public boolean repeatMatch(PairMatchingResult targetResult, int repeatCount){
         if(repeatCount == 0){
-            throw new IllegalArgumentException("3회 시도까지 매칭이 되지 않거나 매칭을 할 수 있는 경우의 수가 없습니다");
+            throw new IllegalArgumentException(Exception.PAIR_REMATCH.getMessage());
         }
-        PairMatchingResult newPairMatchingResult = new PairMatchingResult(targetResult, new Pairs(pairMaker.pair()));
+        PairMatchingResult newResult = new PairMatchingResult(targetResult, new Pairs(pairMaker.pair()));
         for(PairMatchingResult pairMatchingResult : pairMatchingResults){
-            if(pairMatchingResult.exist(newPairMatchingResult)){
-                return repeatMatch(targetResult, repeatCount--);
+            if(pairMatchingResult.exist(newResult)){
+                return repeatMatch(targetResult, repeatCount - 1);
             }
         }
-        return pairMatchingResults.add(newPairMatchingResult);
+        return pairMatchingResults.add(newResult);
     }
-
 
 }

@@ -1,5 +1,7 @@
 package pairmatching.model;
 
+import pairmatching.constant.Exception;
+
 import java.util.Arrays;
 
 public enum FunctionType {
@@ -16,11 +18,11 @@ public enum FunctionType {
         this.signature = signature;
     }
 
-    public static FunctionType of(String signature){
+    public static FunctionType of(String target){
         return Arrays.stream(values())
-                .filter(function -> function.signature.equals(signature))
+                .filter(function -> function.signature.equals(target))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("기능 목록에 해당하지 않는 입력입니다."));
+                .orElseThrow(() -> new IllegalArgumentException(Exception.FUNCTION_TYPE.getMessage()));
     }
 
     public String getName() {

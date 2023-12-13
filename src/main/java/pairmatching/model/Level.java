@@ -1,5 +1,7 @@
 package pairmatching.model;
 
+import pairmatching.constant.Exception;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,4 +21,18 @@ public enum Level {
 
     }
 
+    public static Level of(String target){
+        return Arrays.stream(values())
+                .filter(level -> level.name.equals(target))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(Exception.LEVEL.getMessage()));
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Mission> getMissions() {
+        return missions;
+    }
 }

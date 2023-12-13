@@ -1,6 +1,7 @@
 package pairmatching.model;
 
 import camp.nextstep.edu.missionutils.Randoms;
+import pairmatching.constant.Exception;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,19 +18,18 @@ public class PairMaker {
         validateCrewsSize(this.crews);
     }
 
-    public List<Crew> crew(List<String> crewNames){
+    private List<Crew> crew(List<String> crewNames) {
         List<String> shuffledCrew = Randoms.shuffle(crewNames);
         return shuffledCrew.stream()
                 .map(crew -> new Crew(course, crew))
                 .collect(Collectors.toList());
     }
 
-    public List<Pair> pair(){
-        validateCrewsSize(crews);
+    public List<Pair> pair() {
         if (crews.size() % 2 == 0) {
-            return evenNumberPair(crews.size()/2, new ArrayList<>(crews));
+            return evenNumberPair(crews.size() / 2, new ArrayList<>(crews));
         }
-        return oddNumberPair(crews.size() / 2, new ArrayList<>(crews));
+        return oddNumberPair(crews.size()/2, new ArrayList<>(crews));
     }
 
     private List<Pair> evenNumberPair(int number, List<Crew> crews) {
@@ -46,9 +46,9 @@ public class PairMaker {
         return pairs;
     }
 
-    public void validateCrewsSize(List<Crew> crews){
-        if(crews.size() < 2){
-            throw new IllegalArgumentException("페어를 매칭할 수 없습니다.");
+    private void validateCrewsSize(List<Crew> crews) {
+        if (crews.size() < 2) {
+            throw new IllegalArgumentException(Exception.CREW_SIZE.getMessage());
         }
     }
 }

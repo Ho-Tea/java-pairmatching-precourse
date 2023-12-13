@@ -17,10 +17,12 @@ public class PairMatchingResult {
         this.pairs = pairs;
     }
 
-
-
     public boolean exist(PairMatchingResult target){
         return level.equals(target.level)
                 && pairs.anyMatch(target.pairs);
+    }
+
+    public Pairs getPairs() {
+        return pairs;
     }
 }
